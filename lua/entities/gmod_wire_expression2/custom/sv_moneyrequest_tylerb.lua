@@ -15,9 +15,6 @@
 
 util.AddNetworkString( "moneyRequest" )
 
-local maxreq = CreateConVar("sv_moneyrequest_max", 0, {FCVAR_ARCHIVE})
-local allowgive = CreateConVar("sv_moneyrequest_allowgive", 1, {FCVAR_ARCHIVE})
-
 local Requests = 0
 local OpenRequests = {}
 local Blocked = {}
@@ -72,8 +69,8 @@ local function handleRequest(e2,ply,amount,timeout,title)
     if not amount then return 0 end
     if amount <= 0 then return 0 end      
     
-	if maxreq:GetInt() >= 1 and amount > maxreq:GetInt() then
-		asker:ChatPrint("The server has restricted the maximum amount of money you can transfer to $"..maxreq:GetInt()..".")
+	if amount > E2MONEYCONFIG.MaxGive then
+		asker:ChatPrint("The server has restricted the maximum amount of money you can transfer to $"..E2MONEYCONFIG.MaxGive..".")
         return 0
 	end
 	
@@ -112,7 +109,7 @@ end
 local function handleGive(giver,ply,amount)
     if not math.IsFinite(amount) then return 0 end
 	
-	if not allowgive:GetBool() then
+	if not E2MONEYCONFIG.Enabled then
 		giver:ChatPrint("The server has disabled moneyGive().")
 		return
 	end
@@ -127,8 +124,8 @@ local function handleGive(giver,ply,amount)
     if not amount then return 0 end
     if amount <= 0 then return 0 end      
 	
-	if maxreq:GetInt() >= 1 and amount > maxreq:GetInt() then
-		giver:ChatPrint("The server has restricted the maximum amount of money you can transfer to $"..maxreq:GetInt()..".")
+	if amount > E2MONEYCONFIG.MaxGive then
+		giver:ChatPrint("The server has restricted the maximum amount of money you can transfer to $"..E2MONEYCONFIG.MaxGive..".")
         return 0
 	end
 	

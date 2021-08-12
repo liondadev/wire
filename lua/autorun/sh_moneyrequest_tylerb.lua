@@ -9,6 +9,12 @@
 --##      |___/                                                       |___/              |_|                     ##--
 --#################################################################################################################--
 
+// Config
+E2MONEYCONFIG = {}
+
+E2MONEYCONFIG.Enabled = true
+E2MONEYCONFIG.MaxGive = 25000
+
 if SERVER then
     AddCSLuaFile()
 else
